@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Sun,
@@ -7,14 +7,13 @@ import {
   Clock,
   ShieldCheck,
   Activity,
-  LayoutGrid,
   Layers,
   Settings,
   MoreHorizontal
 } from 'lucide-react';
 import { GasChart } from './components/GasChart';
 
-const API_BASE = 'http://localhost:3001/api';
+const API_BASE = '/api';
 
 function App() {
   const [isDark, setIsDark] = useState(false);
