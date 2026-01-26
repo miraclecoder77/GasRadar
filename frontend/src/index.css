@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@theme {
+  /* Material Design 3 Core Colors (Tonal Palettes) */
+  --color-m3-primary: var(--md-sys-color-primary);
+  --color-m3-on-primary: var(--md-sys-color-on-primary);
+  --color-m3-primary-container: var(--md-sys-color-primary-container);
+  --color-m3-on-primary-container: var(--md-sys-color-on-primary-container);
+
+  --color-m3-secondary: var(--md-sys-color-secondary);
+  --color-m3-on-secondary: var(--md-sys-color-on-secondary);
+
+  --color-m3-surface: var(--md-sys-color-surface);
+  --color-m3-on-surface: var(--md-sys-color-on-surface);
+  --color-m3-surface-variant: var(--md-sys-color-surface-variant);
+  --color-m3-on-surface-variant: var(--md-sys-color-on-surface-variant);
+
+  --color-m3-outline: var(--md-sys-color-outline);
+  --color-m3-error: var(--md-sys-color-error);
+  --color-m3-on-error: var(--md-sys-color-on-error);
+  --color-m3-success: var(--md-sys-color-success);
+  --color-m3-on-success: var(--md-sys-color-on-success);
+}
+
+:root {
+  /* Light Mode Tokens (Source: #1a73e8) */
+  --md-sys-color-primary: #005ac1;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #d8e2ff;
+  --md-sys-color-on-primary-container: #001a41;
+
+  --md-sys-color-secondary: #575e71;
+  --md-sys-color-on-secondary: #ffffff;
+
+  --md-sys-color-surface: #fefbff;
+  --md-sys-color-on-surface: #1b1b1f;
+  --md-sys-color-surface-variant: #e1e2ec;
+  --md-sys-color-on-surface-variant: #44474f;
+
+  --md-sys-color-outline: #74777f;
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-success: #1a6c31;
+  --md-sys-color-on-success: #ffffff;
+
+  --bg-primary: var(--md-sys-color-surface);
+  --text-primary: var(--md-sys-color-on-surface);
+  --border-color: var(--md-sys-color-outline);
+
+  /* Typography Scaling for Large Screens */
+  font-size: 16px;
+}
+
+@media (min-width: 1440px) {
+  :root {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    font-size: 20px;
+  }
+}
+
+.dark {
+  /* Dark Mode Tokens (Source: #1a73e8) */
+  --md-sys-color-primary: #adc6ff;
+  --md-sys-color-on-primary: #002e69;
+  --md-sys-color-primary-container: #004494;
+  --md-sys-color-on-primary-container: #d8e2ff;
+
+  --md-sys-color-secondary: #bfc6dc;
+  --md-sys-color-on-secondary: #293041;
+
+  --md-sys-color-surface: #1b1b1f;
+  --md-sys-color-on-surface: #e3e2e6;
+  --md-sys-color-surface-variant: #44474f;
+  --md-sys-color-on-surface-variant: #c4c6d0;
+
+  --md-sys-color-outline: #8e9099;
+  --md-sys-color-error: #ffb4ab;
+  --md-sys-color-on-error: #690005;
+  --md-sys-color-success: #85d893;
+  --md-sys-color-on-success: #003914;
+
+  --bg-primary: var(--md-sys-color-surface);
+  --text-primary: var(--md-sys-color-on-surface);
+  --border-color: var(--md-sys-color-outline);
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  @apply transition-colors duration-300;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+/* Material 3 Card Styles */
+.m3-card-elevated {
+  @apply bg-m3-surface rounded-3xl p-6 shadow-sm border border-m3-outline/10;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.m3-card-elevated:hover {
+  @apply shadow-md;
+}
+
+.m3-card-filled {
+  @apply bg-m3-surface-variant rounded-3xl p-6;
+}
+
+.m3-card-outlined {
+  @apply bg-m3-surface rounded-3xl p-6 border border-m3-outline;
+}
+
+/* Responsive Navigation Foundation */
+.nav-rail {
+  @apply fixed left-0 top-0 h-full w-20 flex flex-col items-center py-8 bg-m3-surface-variant/30 border-r border-m3-outline/10 hidden md:flex;
+}
+
+.bottom-nav {
+  @apply fixed bottom-0 left-0 w-full h-16 flex items-center justify-around bg-m3-surface-variant/30 border-t border-m3-outline/10 md:hidden z-50 backdrop-blur-md;
+}
+
+/* Ad Slot Integration Styles */
+.native-ad-label {
+  @apply text-[10px] uppercase font-bold tracking-wider text-m3-on-surface-variant opacity-50 mb-2;
+}
+
+.native-ad-container {
+  @apply relative overflow-hidden flex items-center justify-center bg-m3-surface-variant/20 rounded-2xl border border-dashed border-m3-outline/30 min-h-[100px];
+}
