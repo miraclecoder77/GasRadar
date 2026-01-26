@@ -101,8 +101,9 @@ body {
 
 /* Material 3 Card Styles */
 .m3-card-elevated {
-  @apply bg-m3-surface rounded-3xl p-6 shadow-sm border border-m3-outline/10;
-  transition: box-shadow 0.2s ease-in-out;
+  @apply bg-m3-surface rounded-3xl p-6 shadow-sm border border-m3-outline/10 h-full flex flex-col;
+  transition: all 0.2s ease-in-out;
+  min-height: 180px;
 }
 
 .m3-card-elevated:hover {

@@ -42,7 +42,7 @@ export const TransactionCalculator: React.FC<CalculatorProps> = ({ baseFeeGwei, 
                 {transactions.map((tx) => {
                     const cost = calculateCost(tx.gas);
                     return (
-                        <div key={tx.id} className={`${cardBg} p-5 rounded-3xl border border-m3-outline/10 transition-transform hover:scale-[1.02]`}>
+                        <div key={tx.id} className="m3-card-elevated transition-transform hover:scale-[1.02] border-m3-outline/10">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="p-2 bg-m3-primary/10 text-m3-primary rounded-xl">
                                     {tx.icon}
