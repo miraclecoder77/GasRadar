@@ -175,6 +175,16 @@ function App() {
             </div>
           </div>
 
+          {gasStatus && (
+            <div className="mb-10 md:mb-16">
+              <TransactionCalculator
+                baseFeeGwei={parseFloat(currentFee)}
+                ethPrice={ethPrice}
+                isDark={isDark}
+              />
+            </div>
+          )}
+
           <div className="m3-card-filled mb-10 md:mb-16 overflow-hidden relative">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 md:mb-12">
               <div>
@@ -194,18 +204,11 @@ function App() {
             </div>
 
             {gasStatus && forecasts && (
-              <>
-                <GasChart
-                  data={gasStatus.history}
-                  forecasts={forecasts}
-                  isDark={isDark}
-                />
-                <TransactionCalculator
-                  baseFeeGwei={parseFloat(currentFee)}
-                  ethPrice={ethPrice}
-                  isDark={isDark}
-                />
-              </>
+              <GasChart
+                data={gasStatus.history}
+                forecasts={forecasts}
+                isDark={isDark}
+              />
             )}
           </div>
 
