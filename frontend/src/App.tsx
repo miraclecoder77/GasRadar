@@ -12,6 +12,7 @@ import {
   MoreHorizontal
 } from 'lucide-react';
 import { GasChart } from './components/GasChart';
+import { TransactionCalculator } from './components/TransactionCalculator';
 
 const API_BASE = '/api';
 
@@ -46,6 +47,13 @@ function App() {
   };
 
   const currentFee = gasStatus?.current?.baseFee?.toFixed(2) || '...';
+  const ethPrice = gasStatus?.current?.ethPrice || 2500;
+
+  const getUsdEstimate = (gwei: string, gasLimit: number = 21000) => {
+    if (gwei === '...') return '...';
+    const eth = (parseFloat(gwei) * gasLimit) / 1e9;
+    return (eth * ethPrice).toFixed(2);
+  };
 
   const networks = [
     { id: 'ethereum', icon: <Layers className="w-5 h-5" />, label: 'Ethereum' },
@@ -128,7 +136,10 @@ function App() {
               <div className="text-4xl md:text-5xl 2xl:text-6xl font-bold mb-1 tracking-tight">
                 {(parseFloat(currentFee) * 0.9).toFixed(1)}
               </div>
-              <div className="text-sm md:text-base text-m3-on-surface-variant">Gwei • ~20 min</div>
+              <div className="text-sm md:text-base text-m3-on-surface-variant flex flex-col">
+                <span>Gwei • ~20 min</span>
+                <span className="text-m3-success font-bold text-xs mt-1">~${getUsdEstimate((parseFloat(currentFee) * 0.9).toString())}</span>
+              </div>
             </div>
 
             <div className="m3-card-elevated ring-2 ring-m3-primary ring-offset-4 ring-offset-m3-surface md:scale-105">
@@ -141,7 +152,10 @@ function App() {
               <div className="text-4xl md:text-5xl 2xl:text-6xl font-bold mb-1 tracking-tight text-m3-primary">
                 {currentFee}
               </div>
-              <div className="text-sm md:text-base text-m3-on-surface-variant">Gwei • ~3 min</div>
+              <div className="text-sm md:text-base text-m3-on-surface-variant flex flex-col">
+                <span>Gwei • ~3 min</span>
+                <span className="text-m3-primary font-bold text-xs mt-1">~${getUsdEstimate(currentFee)}</span>
+              </div>
             </div>
 
             <div className="m3-card-elevated">
@@ -154,7 +168,10 @@ function App() {
               <div className="text-4xl md:text-5xl 2xl:text-6xl font-bold mb-1 tracking-tight">
                 {(parseFloat(currentFee) * 1.2).toFixed(1)}
               </div>
-              <div className="text-sm md:text-base text-m3-on-surface-variant">Gwei • ~15 sec</div>
+              <div className="text-sm md:text-base text-m3-on-surface-variant flex flex-col">
+                <span>Gwei • ~15 sec</span>
+                <span className="text-m3-error font-bold text-xs mt-1">~${getUsdEstimate((parseFloat(currentFee) * 1.2).toString())}</span>
+              </div>
             </div>
           </div>
 
@@ -177,11 +194,18 @@ function App() {
             </div>
 
             {gasStatus && forecasts && (
-              <GasChart
-                data={gasStatus.history}
-                forecasts={forecasts}
-                isDark={isDark}
-              />
+              <>
+                <GasChart
+                  data={gasStatus.history}
+                  forecasts={forecasts}
+                  isDark={isDark}
+                />
+                <TransactionCalculator
+                  baseFeeGwei={parseFloat(currentFee)}
+                  ethPrice={ethPrice}
+                  isDark={isDark}
+                />
+              </>
             )}
           </div>
 
