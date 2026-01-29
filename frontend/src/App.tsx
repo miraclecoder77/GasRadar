@@ -157,7 +157,7 @@ function App() {
               </div>
             </article>
 
-            <article className="m3-card-elevated">
+            <article className="m3-card-elevated grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="flex justify-between items-start mb-6 md:mb-10">
                 <div className="bg-m3-primary-container text-m3-on-primary-container px-3 py-1 rounded-full text-xs md:text-sm font-bold uppercase">
                   Market
