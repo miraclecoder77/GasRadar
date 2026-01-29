@@ -20,6 +20,7 @@
   --color-m3-on-error: var(--md-sys-color-on-error);
   --color-m3-success: var(--md-sys-color-success);
   --color-m3-on-success: var(--md-sys-color-on-success);
+  --color-m3-surface-container-low: var(--md-sys-color-surface-container-low);
 }
 
 :root {
@@ -42,6 +43,7 @@
   --md-sys-color-on-error: #ffffff;
   --md-sys-color-success: #1a6c31;
   --md-sys-color-on-success: #ffffff;
+  --md-sys-color-surface-container-low: #f7f2fa;
 
   --bg-primary: var(--md-sys-color-surface);
   --text-primary: var(--md-sys-color-on-surface);
@@ -83,6 +85,7 @@
   --md-sys-color-on-error: #690005;
   --md-sys-color-success: #85d893;
   --md-sys-color-on-success: #003914;
+  --md-sys-color-surface-container-low: #1d1b20;
 
   --bg-primary: var(--md-sys-color-surface);
   --text-primary: var(--md-sys-color-on-surface);
@@ -101,7 +104,7 @@ body {
 
 /* Material 3 Card Styles */
 .m3-card-elevated {
-  @apply bg-m3-surface rounded-3xl p-6 shadow-sm border border-m3-outline/10 h-full flex flex-col;
+  @apply bg-m3-surface rounded-3xl p-6 shadow-sm border border-m3-outline/10 h-full flex flex-col w-full;
   transition: all 0.2s ease-in-out;
   min-height: 180px;
 }
