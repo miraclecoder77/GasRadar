@@ -53,6 +53,7 @@ class GasIngestor {
     constructor(forecaster, rpcUrl) {
         this.provider = null;
         this.isMock = true;
+        this.currentEthPrice = 2500;
         this.forecaster = forecaster;
         if (rpcUrl) {
             this.provider = rpcUrl.startsWith('wss://')
@@ -68,7 +69,7 @@ class GasIngestor {
         }
         else {
             console.log('Starting in MOCK mode...');
-            this.seedMockData();
+            await this.seedMockData();
         }
         // Every minute, fetch new data or generate mock data
         node_cron_1.default.schedule('* * * * *', async () => {
@@ -87,31 +88,46 @@ class GasIngestor {
             const history = await this.provider.send('eth_feeHistory', [100, 'latest', []]);
             const baseFees = history.baseFeePerGas.map((f) => parseInt(f, 16) / 1e9);
             const utilization = history.gasUsedRatio;
+            await this.fetchEthPrice();
             baseFees.forEach((fee, i) => {
                 this.forecaster.addDataPoint({
                     timestamp: Date.now() - (100 - i) * 12000, // Approx 12s per block
                     baseFee: fee,
-                    utilization: utilization[i] || 0.5
+                    utilization: utilization[i] || 0.5,
+                    ethPrice: this.currentEthPrice
                 });
             });
         }
         catch (e) {
             console.error('Failed to seed historical data, falling back to mock.', e);
             this.isMock = true;
-            this.seedMockData();
+            await this.seedMockData();
         }
     }
     async syncNewBlock() {
         try {
+            await this.fetchEthPrice();
             const history = await this.provider.send('eth_feeHistory', [1, 'latest', []]);
             this.forecaster.addDataPoint({
                 timestamp: Date.now(),
                 baseFee: parseInt(history.baseFeePerGas[1], 16) / 1e9,
-                utilization: history.gasUsedRatio[0]
+                utilization: history.gasUsedRatio[0],
+                ethPrice: this.currentEthPrice
             });
         }
         catch (e) {
             console.error('Failed to sync new block', e);
+        }
+    }
+    async fetchEthPrice() {
+        try {
+            // Using a simple public API for ETH price (this one doesn't require an API key for low freq)
+            const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT');
+            const data = await response.json();
+            this.currentEthPrice = parseFloat(data.price);
+        }
+        catch (e) {
+            console.error('Failed to fetch ETH price', e);
         }
     }
     seedMockData() {
@@ -121,11 +137,13 @@ class GasIngestor {
             this.forecaster.addDataPoint({
                 timestamp: Date.now() - (200 - i) * 60000,
                 baseFee: Math.max(1, currentFee),
-                utilization: Math.random()
+                utilization: Math.random(),
+                ethPrice: 2500 + (Math.random() - 0.5) * 10
             });
         }
     }
-    generateMockPoint() {
+    async generateMockPoint() {
+        await this.fetchEthPrice();
         const lastPoint = this.forecaster.getHistory()[this.forecaster.getHistory().length - 1];
         let newFee = lastPoint.baseFee + (Math.random() - 0.48) * 1.5; // Slight upward bias for spikes
         // Simulate a random spike every now and then
@@ -135,7 +153,8 @@ class GasIngestor {
         this.forecaster.addDataPoint({
             timestamp: Date.now(),
             baseFee: Math.max(1, newFee),
-            utilization: Math.random()
+            utilization: Math.random(),
+            ethPrice: this.currentEthPrice
         });
     }
 }

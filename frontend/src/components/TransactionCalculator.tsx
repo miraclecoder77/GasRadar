@@ -23,7 +23,6 @@ export const TransactionCalculator: React.FC<CalculatorProps> = ({ baseFeeGwei, 
         };
     };
 
-    const cardBg = isDark ? 'bg-m3-surface-variant/30' : 'bg-m3-surface-container-low';
     const textColor = isDark ? 'text-m3-on-surface' : 'text-m3-on-surface-variant';
 
     return (
